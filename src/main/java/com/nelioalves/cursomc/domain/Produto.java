@@ -11,9 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-
-import org.apache.el.lang.ELArithmetic.BigDecimalDelegate;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
