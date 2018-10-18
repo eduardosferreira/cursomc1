@@ -2,8 +2,6 @@ package com.nelioalves.cursomc;
 
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -83,18 +81,18 @@ public class CursomcApplication implements CommandLineRunner {
 		Cliente cli1 = new Cliente("Maria Silva"
 									,"maria@gmail.com"
 									,"00000000000"
-									,TipoCliente.toEnum(1));
+									,TipoCliente.PESSOAFISICA);
 		
 		Cliente cliPollyana = new Cliente("Pollyana Oliveira Martins Ferreira"
 				,"pollyana.oliveira@gmail.com"
 				,"98782134120"
-				,TipoCliente.toEnum(1));
+				,TipoCliente.PESSOAFISICA);
 
 		
 		Cliente cliMeiPollyana = new Cliente("MEI Pollyana Oliveira Martins Ferreira 98782134120"
 				,"pollyana.oliveira@gmail.com"
 				,"30.024.564/0001-25"
-				,TipoCliente.toEnum(2));
+				,TipoCliente.PESSOAJURIDICA);
 		
 		Endereco e1 = new Endereco("Rua Flores",
 								   "300",
@@ -128,16 +126,13 @@ public class CursomcApplication implements CommandLineRunner {
 				   c1,
 				   cliMeiPollyana);
 		cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
-		Set<String> telefones = new HashSet<>();
-		telefones.add("553432335001");
-		telefones.add("551132555001");
-		cli1.setTelefones(telefones);
+		cli1.getTelefones().addAll(Arrays.asList("553432335001","551132555001"));
 		
 		cliPollyana.getEnderecos().addAll(Arrays.asList(ePollyana));
-		cliPollyana.setTelefones(telefones);
-
+		cliPollyana.getTelefones().addAll(Arrays.asList("553432335001","551132555001"));
+		
 		cliMeiPollyana.getEnderecos().addAll(Arrays.asList(eMeiPollyana));
-		cliMeiPollyana.setTelefones(telefones);
+		cliMeiPollyana.getTelefones().addAll(Arrays.asList("553432335001","551132555001"));
 				
 		clienteRepository.saveAll(Arrays.asList(cli1,cliPollyana,cliMeiPollyana));
 		enderecoRepository.saveAll(Arrays.asList(e1,e2,eMeiPollyana,ePollyana));
