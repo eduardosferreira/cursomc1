@@ -2,6 +2,8 @@ package com.nelioalves.cursomc;
 
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -10,10 +12,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.nelioalves.cursomc.domain.Categoria;
 import com.nelioalves.cursomc.domain.Cidade;
+import com.nelioalves.cursomc.domain.Cliente;
+import com.nelioalves.cursomc.domain.Endereco;
 import com.nelioalves.cursomc.domain.Estado;
 import com.nelioalves.cursomc.domain.Produto;
+import com.nelioalves.cursomc.domain.enums.TipoCliente;
 import com.nelioalves.cursomc.repositories.CategoriaRepository;
 import com.nelioalves.cursomc.repositories.CidadeRepository;
+import com.nelioalves.cursomc.repositories.ClienteRepository;
+import com.nelioalves.cursomc.repositories.EnderecoRepository;
 import com.nelioalves.cursomc.repositories.EstadoRepository;
 import com.nelioalves.cursomc.repositories.ProdutoRepository;
 
@@ -29,6 +36,11 @@ public class CursomcApplication implements CommandLineRunner {
 	private CidadeRepository cidadeRepository;
 	@Autowired
 	private EstadoRepository estadoRepository;
+
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -67,6 +79,69 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		estadoRepository.saveAll(Arrays.asList(est1,est2));
 		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3,c4));
+
+		Cliente cli1 = new Cliente("Maria Silva"
+									,"maria@gmail.com"
+									,"00000000000"
+									,TipoCliente.toEnum(1));
 		
+		Cliente cliPollyana = new Cliente("Pollyana Oliveira Martins Ferreira"
+				,"pollyana.oliveira@gmail.com"
+				,"98782134120"
+				,TipoCliente.toEnum(1));
+
+		
+		Cliente cliMeiPollyana = new Cliente("MEI Pollyana Oliveira Martins Ferreira 98782134120"
+				,"pollyana.oliveira@gmail.com"
+				,"30.024.564/0001-25"
+				,TipoCliente.toEnum(2));
+		
+		Endereco e1 = new Endereco("Rua Flores",
+								   "300",
+								   "Apt 203",
+								   "Jardim",
+								   "38220634",
+								   c1,
+								   cli1);
+
+		Endereco e2 = new Endereco("Avenida Mattos",
+				   "105",
+				   "Sala 800",
+				   "Centro",
+				   "38777012",
+				   c2,
+				   cli1);
+
+		Endereco ePollyana = new Endereco("Rua Marco Aurelio Pereira",
+				   "71",
+				   "FUNDO",
+				   "Jardim Brasilia",
+				   "38401668",
+				   c1,
+				   cliPollyana);
+
+		Endereco eMeiPollyana = new Endereco("Rua Marco Aurelio Pereira",
+				   "71",
+				   "LOJA",
+				   "Jardim Brasilia",
+				   "38401668",
+				   c1,
+				   cliMeiPollyana);
+		cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
+		Set<String> telefones = new HashSet<>();
+		telefones.add("553432335001");
+		telefones.add("551132555001");
+		cli1.setTelefones(telefones);
+		
+		cliPollyana.getEnderecos().addAll(Arrays.asList(ePollyana));
+		cliPollyana.setTelefones(telefones);
+
+		cliMeiPollyana.getEnderecos().addAll(Arrays.asList(eMeiPollyana));
+		cliMeiPollyana.setTelefones(telefones);
+				
+		clienteRepository.saveAll(Arrays.asList(cli1,cliPollyana,cliMeiPollyana));
+		enderecoRepository.saveAll(Arrays.asList(e1,e2,eMeiPollyana,ePollyana));
+		
+	
 	}
 }
